@@ -5,16 +5,21 @@
   <eClassifiers xsi:type="ecore:EClass" name="Course">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="credits" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="credits" eType="#//Credits"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="level" eType="#//CourseLevel"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="semesterType" eType="#//SemesterType"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CourseGroup">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isMandatory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MandatoryCourseGroup">
     <eStructuralFeatures xsi:type="ecore:EReference" name="courses" upperBound="-1"
         eType="#//Course" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="programme" eType="#//Programme"
-        eOpposite="#//Programme/courseGroup"/>
+        eOpposite="#//Programme/mandatoryCourses"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElectiveCourseGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="courses" upperBound="-1"
+        eType="#//Course" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="programme" eType="#//Programme"
+        eOpposite="#//Programme/electiveCourseGroup"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Programme">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
@@ -27,10 +32,18 @@
         eType="#//Semester" containment="true" eOpposite="#//Semester/programme"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="specialization" eType="#//Specialization"
         containment="true" eOpposite="#//Specialization/programme"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="courseGroup" eType="#//CourseGroup"
-        eOpposite="#//CourseGroup/programme"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mandatoryCourses" eType="#//MandatoryCourseGroup"
+        eOpposite="#//MandatoryCourseGroup/programme"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="electiveCourseGroup" eType="#//ElectiveCourseGroup"
+        eOpposite="#//ElectiveCourseGroup/programme"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Semester">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="needsEnoughCredits"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/acceleo/query/1.0">
+      <details key="needsEnoughCredits" value="self.courses->collect(course | course.credtis).forAll(sum | sum == 30f)"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="season" eType="#//SemesterType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="programme" eType="#//Programme"
         eOpposite="#//Programme/semesters"/>
@@ -41,6 +54,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="programme" eType="#//Programme"
         eOpposite="#//Programme/specialization"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selectableIn" eType="#//Semester"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="CourseLevel">
     <eLiterals name="FoundationCourse"/>
@@ -57,5 +71,10 @@
     <eLiterals name="Bachelor" value="6"/>
     <eLiterals name="Master" value="4"/>
     <eLiterals name="IntegratedMaster" value="10"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Credits" instanceClassName="java.lang.Float">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="cannotBeNegative"/>
+    </eAnnotations>
   </eClassifiers>
 </ecore:EPackage>
