@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="sp" nsURI="platform:/resource/assignment1.sp.model/sp.ecore"
+    nsPrefix="sp">
+  <eClassifiers xsi:type="ecore:EClass" name="Course">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="credits" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="level" eType="#//CourseLevel"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="semesterType" eType="#//SemesterType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CourseGroup">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isMandatory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="courses" upperBound="-1"
+        eType="#//Course" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="programme" eType="#//Programme"
+        eOpposite="#//Programme/courseGroup"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Programme">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="needsEnoughCredits needsEnoughSemesters"/>
+    </eAnnotations>
+    <eOperations name="getCredits" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="#//ProgrammeLevel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="semesters" upperBound="-1"
+        eType="#//Semester" containment="true" eOpposite="#//Semester/programme"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specialization" eType="#//Specialization"
+        containment="true" eOpposite="#//Specialization/programme"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="courseGroup" eType="#//CourseGroup"
+        eOpposite="#//CourseGroup/programme"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Semester">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="season" eType="#//SemesterType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="programme" eType="#//Programme"
+        eOpposite="#//Programme/semesters"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="courses" upperBound="-1"
+        eType="#//Course"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Specialization">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="programme" eType="#//Programme"
+        eOpposite="#//Programme/specialization"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CourseLevel">
+    <eLiterals name="FoundationCourse"/>
+    <eLiterals name="IntermediateCourse" value="1"/>
+    <eLiterals name="ThirdYearCourse" value="2"/>
+    <eLiterals name="HigherLevelCourse" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SemesterType">
+    <eLiterals name="Fall"/>
+    <eLiterals name="Spring" value="1"/>
+    <eLiterals name="Both" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ProgrammeLevel">
+    <eLiterals name="Bachelor" value="6"/>
+    <eLiterals name="Master" value="4"/>
+    <eLiterals name="IntegratedMaster" value="10"/>
+  </eClassifiers>
+</ecore:EPackage>
