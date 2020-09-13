@@ -2,6 +2,7 @@
 
 By: Rolf Aas
 
+This is the official repository for my assignements in the course TDT4250 - Advanced Software Design at NTNU, Fall 2020. In this README you'll find the folder structure of this repository, an image of the current model, my rationale beheind the chosen model, as well as an updated TODO list for my own help.
 
 ### Folder structure
 
@@ -11,12 +12,12 @@ By: Rolf Aas
   * `src-gen/assignment1.sp.impl` contants the actualt implemented classes/enums
   * `src-gen/assignment1.sp.util`
 
-### Model
+### Model - Assingment 1
 
 ![Model](https://raw.githubusercontent.com/reaas/TDT4250/master/model.png)
 
 
-### Rationale
+### Rationale - Assignment 1
 * A study programme consists of n-number of semesters, and can contain several specializations
 * A specialization is only selectable in a sepcific semester of a programme
 * A semester contains courses whos credits should add up to 30 for each semester
