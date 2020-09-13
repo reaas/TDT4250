@@ -7,9 +7,9 @@ By: Rolf Aas
 
 * `model/` contains the Ecore model and genmodel files
 * `src-gen/` contains automatically generated code, as well as hand written code
-** `src-gen/assignement1.sp` contains the interfaces of each class/enums
-** `src-gen/assignment1.sp.impl` contants the actualt implemented classes/enums
-** `src-gen/assignment1.sp.util`
+  * `src-gen/assignement1.sp` contains the interfaces of each class/enums
+  * `src-gen/assignment1.sp.impl` contants the actualt implemented classes/enums
+  * `src-gen/assignment1.sp.util`
 
 ### Model
 
